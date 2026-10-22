@@ -12,6 +12,7 @@ Este repositório reúne soluções para o estudo e aplicação prática de Prog
 
 - **Conta Bancária (`package conta`):** Sistema para controle de transações bancárias (saques, depósitos e pagamento de boletos) com limite dinâmico de cheque especial e proteção de estado.
 - **Controle de Veículo (`package carro`):** Simulação das funções operacionais de um carro (partida, aceleração, troca sequencial de marchas e manobras) com controle estrito de limites de velocidade e estados mecânicos.
+- **Máquina de Banho de Pets (`package petshop.maquina` e `package petshop.main`):** Sistema para controle operacional automatizado de banho e higienização de pets, com gerenciamento de insumos (água e shampoo), capacidade por animal e travas de segurança de estado.
 
 ---
 
@@ -47,6 +48,20 @@ Este repositório reúne soluções para o estudo e aplicação prática de Prog
 
 - **Método de Inspeção (`status()`):**
     - Permite visualizar as informações atuais do veículo sem expor ou permitir mutações diretas nos atributos.
+
+### Classes `Maquina` e `Pet` (`package petshop.maquina`)
+
+- **Controle de Acesso Inter-Pacotes (`protected`):**
+    - O método `setLimpo(boolean limpo)` da classe `Pet` utiliza a visibilidade `protected`. Isso permite que a classe `Maquina` (no mesmo pacote) altere o estado de limpeza do animal após o banho, impedindo que a classe `Main` (localizada no pacote `petshop.main`) modifique o estado do pet de forma direta.
+
+- **Associação de Objetos e Desvinculamento Seguro:**
+    - A classe `Maquina` mantém uma referência interna privada ao objeto `Pet` (`private Pet pet`). A atribuição (`this.pet = p1`) ocorre apenas quando o pet é efetivamente colocado na máquina. Ao retirar o pet, a referência é limpa com `this.pet = null`, garantindo o desvinculamento na memória.
+
+- **Encapsulamento e Modulação Interna de Insumos:**
+    - Os métodos modificadores dos níveis de insumos (`setNivelAgua`, `setNivelShampoo`, `setPetBanhando`, `setLimpa`) são estritamente privados, garantindo que o consumo e os abastecimentos ocorram apenas por meio dos métodos de negócio públicos.
+
+- **Validação Rigorosa de Pré-condições de Operação:**
+    - Métodos de ação (`banharPet`, `colocarPet`, `limparMaquina`) validam no topo da execução a presença de insumos mínimos, a desocupação da máquina e o estado de higienização do sistema antes de aplicar alterações.
 
 ---
 
@@ -87,3 +102,20 @@ Este repositório reúne soluções para o estudo e aplicação prática de Prog
     - A manobra de virar (esquerda/direita) só é permitida se o veículo estiver com velocidade entre 1 km/h e 40 km/h.
 7. **Desligamento Seguro:**
     - O motor só pode ser desligado se o carro estiver parado (0 km/h) e em ponto morto (marcha 0).
+
+### 3. Máquina de Banho de Pets (`package petshop.maquina`)
+
+1. **Capacidade Máxima e Incremento de Insumos:**
+    - A máquina suporta a capacidade máxima de 30 litros de água e 10 litros de shampoo.
+    - O abastecimento é feito em incrementos de 2 litros por acionamento, ajustando-se para 1 litro caso o reservatório esteja a 1 litro do limite máximo (29 L de água ou 9 L de shampoo).
+2. **Capacidade por Atendimento e Bloqueios de Entrada:**
+    - A máquina permite estritamente 1 pet por vez.
+    - A entrada de um novo animal é bloqueada se a máquina já estiver ocupada ou se o estado da máquina indicar que ela precisa ser limpa (`limpa = false`).
+3. **Consumo de Insumos no Banho:**
+    - O banho consome 10 litros de água e 2 litros de shampoo por execução, alterando o estado do pet interno para limpo (`limpo = true`).
+    - A operação de banho exige a presença do pet na máquina e níveis suficientes de água (mínimo 10 L) e shampoo (mínimo 2 L).
+4. **Trava de Segurança e Retirada de Pet Sujo:**
+    - Se o pet for retirado da máquina sem ter concluído o banho (`limpo = false`), a máquina altera automaticamente seu estado para suja (`limpa = false`), impedindo o ingresso de qualquer outro animal até que a higienização seja realizada.
+5. **Higienização Obrigatória da Máquina:**
+    - A limpeza da máquina consome 3 litros de água e 1 litro de shampoo.
+    - A operação só pode ser realizada com a máquina desocupada (`petBanhando = false`) e com insumos suficientes. Ao final do procedimento, o estado é restaurado para limpo (`limpa = true`), liberando a entrada do próximo pet.
