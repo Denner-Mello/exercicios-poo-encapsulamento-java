@@ -3,8 +3,8 @@ package carro;
 public class Carro {
 
     //ATRIBUTOS
-    private String marca;
-    private String modelo;
+    private final String marca;
+    private final String modelo;
     private int marcha;
     private int velocidade;
     private boolean ligado;
@@ -17,7 +17,6 @@ public class Carro {
     public Carro(String marca, String modelo) {
         this.marca = marca;
         this.modelo = modelo;
-        this.setLigado(false);
         this.setMarcha(0);
         this.setVelocidade(0);
     }
@@ -43,16 +42,8 @@ public class Carro {
         this.velocidadeMaxima = velocidadeMaxima;
     }
 
-    private void setMarca(String marca) {
-        this.marca = marca;
-    }
-
     public String getModelo() {
         return modelo;
-    }
-
-    private void setModelo(String modelo) {
-        this.modelo = modelo;
     }
 
     public int getMarcha() {
