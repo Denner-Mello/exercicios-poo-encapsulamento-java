@@ -75,17 +75,6 @@ public class Main {
         System.out.println("\n--- [TESTE 8] Tentativa de ultrapassar limite total ---");
         c1.sacar(50);
 
-        // ----------------------------------------------------
-        // TESTE 9: Depósito Parcial vs Quitação Total do Cheque
-        // ----------------------------------------------------
-        System.out.println("\n--- [TESTE 9A] Depósito Parcial (Reduz a dívida, mas não quita) ---");
-        c1.depositar(20);
-        c1.consultarSaldo();
-        System.out.println("Usando cheque especial? " + c1.getUsandoCheque());
 
-        System.out.println("\n--- [TESTE 9B] Depósito Total (Quitação da dívida) ---");
-        c1.depositar(100);
-        c1.consultarSaldo();
-        System.out.println("Usando cheque especial? " + c1.getUsandoCheque());
     }
 }
