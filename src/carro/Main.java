@@ -37,7 +37,7 @@ public class Main {
             meuCarro.acelerarCarro();
         }
         meuCarro.status();
-        meuCarro.acelerarCarro(); // Tentando ultrapassar 20 km/h na 1ª marcha
+        meuCarro.acelerarCarro(); // Tentando ultrapassar 20 km/h na primeira marcha
 
         System.out.println("\n-- Testando manobra em velocidade permitida (20 km/h) --");
         meuCarro.virarParaEsquerda();
